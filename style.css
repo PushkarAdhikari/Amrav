@@ -1379,6 +1379,10 @@ nav {
     min-height: 137px;
 }
 
+.form-textarea-home {
+    min-height: 120px;
+}
+
 .btn-form {
     background: var(--orange);
     color: white;
@@ -2247,6 +2251,10 @@ nav {
     letter-spacing: 0.04em;
     color: var(--text-primary);
     margin-bottom: 0.75rem;
+}
+
+.contact-form-heading-2 {
+    font-size: clamp(2rem, 4vw, 1rem);
 }
 
 .contact-page-cta {

@@ -63,7 +63,7 @@ if (submitBtn) {
         var sport = contactSport ? contactSport.value.trim() : '';
         var message = contactMessage ? contactMessage.value.trim() : '';
 
-        if (!name || !phone || !email || !sport) {
+        if (!name || !phone || !email) {
             this.textContent = 'Please fill all required fields';
             this.style.background = '#b42318';
 
@@ -118,10 +118,10 @@ if (testiGrid && testiGrid.children.length > 0) {
     function slideNext() {
         if (isTransitioning) return;
         isTransitioning = true;
-        
+
         var cardOffset = testiGrid.firstElementChild.offsetWidth;
         var gap = getGap();
-        
+
         testiGrid.style.transition = 'transform 0.6s ease-in-out';
         testiGrid.style.transform = 'translateX(-' + (cardOffset + gap) + 'px)';
 
@@ -129,7 +129,7 @@ if (testiGrid && testiGrid.children.length > 0) {
             testiGrid.style.transition = 'none';
             testiGrid.appendChild(testiGrid.firstElementChild);
             testiGrid.style.transform = 'translateX(0)';
-            
+
             // Allow CSS to apply
             void testiGrid.offsetWidth;
             isTransitioning = false;
@@ -139,10 +139,10 @@ if (testiGrid && testiGrid.children.length > 0) {
     function slidePrev() {
         if (isTransitioning) return;
         isTransitioning = true;
-        
+
         var cardOffset = testiGrid.firstElementChild.offsetWidth;
         var gap = getGap();
-        
+
         testiGrid.style.transition = 'none';
         testiGrid.insertBefore(testiGrid.lastElementChild, testiGrid.firstElementChild);
         testiGrid.style.transform = 'translateX(-' + (cardOffset + gap) + 'px)';
@@ -165,7 +165,7 @@ if (testiGrid && testiGrid.children.length > 0) {
             startAutoSlide();
         });
     }
-    
+
     if (btnPrev) {
         btnPrev.addEventListener('click', function () {
             clearInterval(autoSlide);
@@ -177,6 +177,6 @@ if (testiGrid && testiGrid.children.length > 0) {
     function startAutoSlide() {
         autoSlide = setInterval(slideNext, 5000);
     }
-    
+
     startAutoSlide();
 }
