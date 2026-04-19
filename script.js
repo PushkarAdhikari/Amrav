@@ -56,50 +56,62 @@ var contactSport = document.getElementById('contactSport');
 var contactMessage = document.getElementById('contactMessage');
 const contactBotTrap = document.getElementById("websiteField");
 
-submitBtn.addEventListener("click", async function () {
-    if (contactBotTrap.value) {
-        return;
-    }
-    if (!contactName.value.trim() || !contactPhone.value.trim() || !contactEmail.value.trim()) {
-        alert("Please fill required fields");
-        return;
-    }
+if (submitBtn) {
+    contactPhone.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9+]/g, '').slice(0, 13);
+    });
 
-    this.innerText = "Sending...";
-    this.disabled = true;
+    submitBtn.addEventListener("click", async function () {
+        if (contactBotTrap.value) {
+            return;
+        }
+        if (!contactName.value.trim() || !contactPhone.value.trim() || !contactEmail.value.trim()) {
+            alert("Please fill required fields");
+            return;
+        }
 
-    try {
-        await fetch("https://script.google.com/macros/s/AKfycbzl2GlR_d33GNnsQrmxjJDPY98gu_3NrkwzVd-VhgC234EQqp1aBKFDVbmn51wLTs1OBA/exec", {
-            method: "POST",
-            body: JSON.stringify({
-                name: contactName.value.trim(),
-                phone: contactPhone.value.trim(),
-                email: contactEmail.value.trim(),
-                sport: contactSport.value.trim(),
-                message: contactMessage.value.trim(),
-                token: "AMRAV@Sports#Lead2026"
-            }),
-            headers: {
-                "Content-Type": "text/plain;charset=utf-8"
-            }
-        });
+        var phoneVal = contactPhone.value.trim();
+        if (phoneVal.replace(/[^0-9]/g, '').length < 10) {
+            alert("Please enter a valid phone number");
+            return;
+        }
 
-        alert("Enquiry Sent Successfully!");
+        this.innerText = "Sending...";
+        this.disabled = true;
 
-        contactName.value = "";
-        contactPhone.value = "";
-        contactEmail.value = "";
-        contactSport.value = "";
-        contactMessage.value = "";
+        try {
+            await fetch("https://script.google.com/macros/s/AKfycbzl2GlR_d33GNnsQrmxjJDPY98gu_3NrkwzVd-VhgC234EQqp1aBKFDVbmn51wLTs1OBA/exec", {
+                method: "POST",
+                body: JSON.stringify({
+                    name: contactName.value.trim(),
+                    phone: phoneVal,
+                    email: contactEmail.value.trim(),
+                    sport: contactSport.value.trim(),
+                    message: contactMessage.value.trim(),
+                    token: "AMRAV@Sports#Lead2026"
+                }),
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                }
+            });
 
-    } catch (error) {
-        alert("Failed to send enquiry.");
-    }
+            alert("Enquiry Sent Successfully!");
 
-    this.innerText = "Book Free Trial →";
-    this.disabled = false;
+            contactName.value = "";
+            contactPhone.value = "";
+            contactEmail.value = "";
+            contactSport.value = "";
+            contactMessage.value = "";
 
-});
+        } catch (error) {
+            alert("Failed to send enquiry.");
+        }
+
+        this.innerText = "Book Free Trial →";
+        this.disabled = false;
+
+    });
+}
 
 
 /* ── TESTIMONIALS CAROUSEL ── */
