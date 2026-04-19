@@ -54,54 +54,53 @@ var contactPhone = document.getElementById('contactPhone');
 var contactEmail = document.getElementById('contactEmail');
 var contactSport = document.getElementById('contactSport');
 var contactMessage = document.getElementById('contactMessage');
+const contactBotTrap = document.getElementById("websiteField");
 
-if (submitBtn) {
-    submitBtn.addEventListener('click', function () {
-        var name = contactName ? contactName.value.trim() : '';
-        var phone = contactPhone ? contactPhone.value.trim() : '';
-        var email = contactEmail ? contactEmail.value.trim() : '';
-        var sport = contactSport ? contactSport.value.trim() : '';
-        var message = contactMessage ? contactMessage.value.trim() : '';
+submitBtn.addEventListener("click", async function () {
+    if (contactBotTrap.value) {
+        return;
+    }
+    if (!contactName.value.trim() || !contactPhone.value.trim() || !contactEmail.value.trim()) {
+        alert("Please fill required fields");
+        return;
+    }
 
-        if (!name || !phone || !email) {
-            this.textContent = 'Please fill all required fields';
-            this.style.background = '#b42318';
+    this.innerText = "Sending...";
+    this.disabled = true;
 
-            var errorBtn = this;
-            setTimeout(function () {
-                errorBtn.textContent = 'Book Free Trial ->';
-                errorBtn.style.background = '';
-            }, 2500);
-            return;
-        }
+    try {
+        await fetch("https://script.google.com/macros/s/AKfycbzl2GlR_d33GNnsQrmxjJDPY98gu_3NrkwzVd-VhgC234EQqp1aBKFDVbmn51wLTs1OBA/exec", {
+            method: "POST",
+            body: JSON.stringify({
+                name: contactName.value.trim(),
+                phone: contactPhone.value.trim(),
+                email: contactEmail.value.trim(),
+                sport: contactSport.value.trim(),
+                message: contactMessage.value.trim(),
+                token: "AMRAV@Sports#Lead2026"
+            }),
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+            }
+        });
 
-        var subject = 'New Free Trial Request - ' + name;
-        var bodyLines = [
-            'New enquiry from the Amrav Sports Academy website:',
-            '',
-            'Full Name: ' + name,
-            'Phone Number: ' + phone,
-            'Email Address: ' + email,
-            'Sport of Interest: ' + sport,
-            'Message: ' + (message || 'N/A')
-        ];
+        alert("Enquiry Sent Successfully!");
 
-        var mailtoUrl = 'mailto:info@amravsports.com?subject=' +
-            encodeURIComponent(subject) +
-            '&body=' + encodeURIComponent(bodyLines.join('\n'));
+        contactName.value = "";
+        contactPhone.value = "";
+        contactEmail.value = "";
+        contactSport.value = "";
+        contactMessage.value = "";
 
-        window.location.href = mailtoUrl;
+    } catch (error) {
+        alert("Failed to send enquiry.");
+    }
 
-        this.textContent = 'Opening your email app...';
-        this.style.background = '#1A7A3C';
+    this.innerText = "Book Free Trial →";
+    this.disabled = false;
 
-        var btn = this;
-        setTimeout(function () {
-            btn.textContent = 'Book Free Trial ->';
-            btn.style.background = '';
-        }, 3000);
-    });
-}
+});
+
 
 /* ── TESTIMONIALS CAROUSEL ── */
 var testiGrid = document.querySelector('.testi-grid');
